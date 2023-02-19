@@ -24,6 +24,18 @@ public class PlayerTakeDamage : MonoBehaviour
         isInvincible = false;
     }
 
+    public void Deffending()
+    {
+        sr.color = Color.green;
+        isInvincible = true;
+    }
+
+    public void IsntDeffending()
+    {
+        sr.color = Color.white;
+        isInvincible = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && !isInvincible)

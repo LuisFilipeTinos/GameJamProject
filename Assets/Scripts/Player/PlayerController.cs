@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private BoxCollider2D coll;
+    [SerializeField]
+    private SpriteRenderer sr;
 
     void Start()
     {
@@ -94,6 +96,11 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(Slide());
                 else if (Input.GetKeyDown(KeyCode.C) && canDash && !isGrounded)
                     StartCoroutine(Dash());
+
+                if (Input.GetKeyDown(KeyCode.F))
+                    playerDamageScript.Deffending();
+                if (Input.GetKeyUp(KeyCode.F))
+                    playerDamageScript.IsntDeffending();
 
                 if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && isGrounded)
                 {
