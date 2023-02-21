@@ -102,6 +102,17 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKeyUp(KeyCode.F))
                     playerDamageScript.IsntDeffending();
 
+                if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+                {
+                    coll.offset = new Vector2(coll.offset.x, colliderOffsetYSlide);
+                    coll.size = new Vector2(coll.size.x, colliderSizeYSlide);
+                }
+                else
+                {
+                    coll.offset = new Vector2(coll.offset.x, colliderOffsetY);
+                    coll.size = new Vector2(coll.size.x, colliderSizeY);
+                }
+
                 if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && isGrounded)
                 {
                     rb2d.velocity = Vector2.zero;
