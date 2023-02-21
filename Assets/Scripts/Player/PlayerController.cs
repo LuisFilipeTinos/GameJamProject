@@ -45,6 +45,20 @@ public class PlayerController : MonoBehaviour
     public bool isFacingLeft;
 
     public bool canMove;
+    public bool jumpedOnce = false;
+
+    private float normalizedJumpForce = 17.40f;
+
+    private float colliderOffsetYSlide = -0.1014729f;
+    private float colliderSizeYSlide = 0.09066391f;
+
+    private float colliderOffsetY = 0.001597583f;
+    private float colliderSizeY = 0.2968048f;
+
+    [SerializeField]
+    private BoxCollider2D coll;
+    [SerializeField]
+    private SpriteRenderer sr;
 
     void Start()
     {
@@ -53,6 +67,7 @@ public class PlayerController : MonoBehaviour
         vecGravity = new Vector2(0, -Physics2D.gravity.y);
         isFacingLeft = false;
         canMove = true;
+        jumpedOnce = false;
     }
 
     void Update()
@@ -77,9 +92,25 @@ public class PlayerController : MonoBehaviour
                     newBullet.GetComponent<PlayerBulletScript>().StartShoot(isFacingLeft);
                 }
 
-                if (Input.GetKeyDown(KeyCode.C) && canDash && !isGrounded)
-                {
+                if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.C) && canDash)
+                    StartCoroutine(Slide());
+                else if (Input.GetKeyDown(KeyCode.C) && canDash && !isGrounded)
                     StartCoroutine(Dash());
+
+                if (Input.GetKeyDown(KeyCode.F))
+                    playerDamageScript.Deffending();
+                if (Input.GetKeyUp(KeyCode.F))
+                    playerDamageScript.IsntDeffending();
+
+                if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+                {
+                    coll.offset = new Vector2(coll.offset.x, colliderOffsetYSlide);
+                    coll.size = new Vector2(coll.size.x, colliderSizeYSlide);
+                }
+                else
+                {
+                    coll.offset = new Vector2(coll.offset.x, colliderOffsetY);
+                    coll.size = new Vector2(coll.size.x, colliderSizeY);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && isGrounded)
@@ -90,6 +121,7 @@ public class PlayerController : MonoBehaviour
                     isAttacking = true;
                     StartCoroutine(WaitToAttackAgain());
                 }
+
 
                 if (rb2d.velocity.y < 0)
                     rb2d.velocity -= vecGravity * fallMultiplier * Time.deltaTime;
@@ -144,6 +176,18 @@ public class PlayerController : MonoBehaviour
                         movingLeft = false;
                         movingRight = false;
                     }
+
+                    if (Input.GetKeyDown(KeyCode.X) && jumpedOnce && !isGrounded)
+                    {
+                        if (jumpedOnce)
+                            jumpedOnce = false;
+
+                        CreateDust();
+                        anim.Play("JumpAnim");
+
+                        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+                        rb2d.velocity = new Vector2(rb2d.velocity.x, normalizedJumpForce);
+                    }
                 }
             }
         }
@@ -180,6 +224,7 @@ public class PlayerController : MonoBehaviour
                 CreateDust();
                 anim.Play("JumpAnim");
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jumpingSpeed * Time.deltaTime);
+                Invoke("SetJumpedOnceValue", 0.09f);
             }
         }
         else
@@ -191,6 +236,12 @@ public class PlayerController : MonoBehaviour
 
             playerDamageScript.knockBackCounter -= Time.deltaTime;
         }
+    }
+
+    private void SetJumpedOnceValue()
+    {
+        if (!jumpedOnce)
+            jumpedOnce = true;
     }
 
     private IEnumerator WaitToAttackAgain()
@@ -214,7 +265,10 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 6)
+        {
             CreateFallDust();
+            jumpedOnce = false;
+        }
     }
 
     private IEnumerator Dash()
@@ -227,6 +281,24 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashingTime);
         rb2d.gravityScale = originalGravity;
         isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
+    }
+
+    private IEnumerator Slide()
+    {
+        coll.offset = new Vector2(coll.offset.x, colliderOffsetYSlide);
+        coll.size = new Vector2(coll.size.x, colliderSizeYSlide);
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rb2d.gravityScale;
+        rb2d.gravityScale = 0f;
+        rb2d.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        yield return new WaitForSeconds(dashingTime);
+        rb2d.gravityScale = originalGravity;
+        isDashing = false;
+        coll.offset = new Vector2(coll.offset.x, colliderOffsetY);
+        coll.size = new Vector2(coll.size.x, colliderSizeY);
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }

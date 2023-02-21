@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Dstroy
+  - IntroBossTriggerStage1
+  - PlayerAppear
+  - Whip
+  - BloodBurst
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -12,11 +18,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - EnemyIgnoreBloodContact
+  - Blood
+  - IgnoreBloodContact
+  - Boss
   - 
   - 
   - 

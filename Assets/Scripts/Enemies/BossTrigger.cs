@@ -6,6 +6,7 @@ public class BossTrigger : MonoBehaviour
 {
     [SerializeField] CameraShake cameraShake;
     [SerializeField] GameObject blockSpawner;
+    [SerializeField] GameObject bulletPref;
 
     public void SpawnSpawner()
     {
@@ -42,5 +43,17 @@ public class BossTrigger : MonoBehaviour
     public void ResetFieldandAttacks()
     {
         cameraShake.intensity = 0.00f;
+    }
+
+    public void ShootBlackBalls()
+    {
+        var bullet = Instantiate(bulletPref, this.transform.position, Quaternion.identity);
+        StartCoroutine(DestroyShot(bullet));
+    }
+
+    public IEnumerator DestroyShot(GameObject bullet)
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(bullet.gameObject);
     }
 }

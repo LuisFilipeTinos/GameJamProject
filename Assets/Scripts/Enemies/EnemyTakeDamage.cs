@@ -49,16 +49,23 @@ public class EnemyTakeDamage : MonoBehaviour
             }
             else
             {
-                if (this.gameObject.layer == 10)
-                {
-                    isShaking = true;
-                    bossAnim.SetTrigger("Death");
-                    StartCoroutine(BossDeath());
-                }
-                else
-                    Destroy(this.gameObject);
+                //if (this.gameObject.layer == 10)
+                //{
+                //    isShaking = true;
+                //    //bossAnim.SetTrigger("Death");
+                //    StartCoroutine(BossDeath());
+                //}
+                //else
+
+                var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach (var enemy in enemiesArray)
+                    Destroy(enemy.gameObject);
+
+                Destroy(this.gameObject);
             }
-            
+
+            if (this.gameObject.layer == 10 && bossHealth.health == 3 && this.gameObject.name == "SubBoss")
+                bossAnim.SetBool("Enraged", true);
         }
     }
 

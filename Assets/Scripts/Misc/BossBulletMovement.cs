@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class BossBulletMovement : MonoBehaviour
 {
-    Rigidbody2D rb2d;
-    // Start is called before the first frame update
+    private float speed = 3;
+    private Vector2 target;
+    private Transform player;
+
     void Start()
     {
-        rb2d = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        target = new Vector2(player.transform.position.x, player.transform.position.y);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        rb2d.velocity = new Vector3(-3, 0, 0);
-        transform.Rotate(new Vector3(0, 0, 4));
+        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        transform.Rotate(Vector3.forward * 360 * Time.deltaTime);
     }
 }
