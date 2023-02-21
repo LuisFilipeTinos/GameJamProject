@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 167336880}
   - component: {fileID: 167336879}
   - component: {fileID: 167336878}
-  - component: {fileID: 167336877}
+  - component: {fileID: 167336881}
   m_Layer: 0
   m_Name: Atk
   m_TagString: Untagged
@@ -604,19 +604,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &167336877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167336876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b221f57150212f49bd687c7e6947bdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioPlayer: {fileID: 593546206}
 --- !u!50 &167336878
 Rigidbody2D:
   serializedVersion: 4
@@ -679,6 +666,19 @@ Transform:
   m_Father: {fileID: 593546202}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &167336881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167336876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 550d71b42a781a044b419a615581dd95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioPlayer: {fileID: 0}
 --- !u!1001 &171986909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2351,7 +2351,7 @@ MonoBehaviour:
       damage: 3
       hitSound: {fileID: 8300000, guid: 652891a2be79a574989878cac4696734, type: 3}
       slowDown: 1
-  attack: {fileID: 167336877}
+  attack: {fileID: 0}
   anim: {fileID: 0}
   currentCombo: []
   onStartCombo:
