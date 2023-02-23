@@ -67,6 +67,8 @@ public class Player : MonoBehaviour
                 rB.AddForce(new Vector3(0f, jump), ForceMode2D.Impulse);
                 puloDuplo = true;
                 anim.SetBool("Jump", true);
+
+                StaminaSystem.instance.UseStamina(15);
             }
             else
             {
