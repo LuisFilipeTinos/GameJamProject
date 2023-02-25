@@ -20,6 +20,11 @@ public class EnemyPatroll : MonoBehaviour
     [SerializeField] BoxCollider2D trigger;
 
     [SerializeField] ParticleSystem groundParticles;
+
+    [SerializeField] Transform castPoint;
+    [SerializeField] float agroRange;
+    [SerializeField] Transform playerTransf;
+
     bool appeared;
 
     private void Start()
@@ -41,25 +46,79 @@ public class EnemyPatroll : MonoBehaviour
             if (isHittingWallOrCloseEdge(true) || isHittingWallOrCloseEdge(false))
                 ChangeDirection();
 
-            if (isFacingLeft)
-                rb2d.velocity = new Vector2(-moveSpeed * Time.deltaTime, this.transform.position.y);
-            else
-                rb2d.velocity = new Vector2(moveSpeed * Time.deltaTime, this.transform.position.y);
+            if (!damageScript.isDying)
+            {
+                if (CanSeePlayer(agroRange))
+                {
+                    ChasePlayer();
+                }
+                else if (!isFacingLeft)
+                    rb2d.velocity = new Vector2(moveSpeed * Time.deltaTime, this.transform.position.y);
+                else
+                    rb2d.velocity = new Vector2(-moveSpeed * Time.deltaTime, this.transform.position.y);
+            }
         }
-        else if (!appeared)
+        else if (!appeared && !damageScript.isDying)
             this.transform.position = new Vector2(this.transform.position.x + Mathf.Sin(Time.time * 20.0f) * 0.01f, this.transform.position.y);
+    }
+
+    private bool CanSeePlayer(float distance)
+    {
+        float castDist = distance;
+
+        if (isFacingLeft)
+            castDist = -distance;
+
+        Vector2 endPos = castPoint.position + Vector3.right * castDist;
+
+        RaycastHit2D hit = Physics2D.Linecast(castPoint.position, endPos, 1 << LayerMask.NameToLayer("IgnoreBloodContact"));
+
+
+        if (hit.collider != null)
+        {
+            Debug.DrawLine(castPoint.position, endPos, Color.yellow);
+
+            transform.position = Vector2.MoveTowards(transform.position, playerTransf.position, 4f * Time.deltaTime);
+
+            if (hit.collider.gameObject.CompareTag("Player"))
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            Debug.DrawLine(castPoint.position, endPos, Color.blue);
+            return false;
+        }
+            
+    }
+
+    private void ChasePlayer()
+    {
+        if (transform.position.x > playerTransf.position.x)
+        {
+            //rb2d.velocity = new Vector2(-moveSpeed, 0);
+            this.transform.localScale = new Vector3(-2, 2, 2);
+            isFacingLeft = false;
+        }
+        else
+        {
+            //rb2d.velocity = new Vector2(moveSpeed, 0);
+            this.transform.localScale = new Vector3(2, 2, 2);
+            isFacingLeft = true;
+        }
     }
 
     private void ChangeDirection()
     {
         if (isFacingLeft)
         {
-            this.transform.localScale = new Vector3(-5, 5, 5);
+            this.transform.localScale = new Vector3(-2, 2, 2);
             isFacingLeft = false;
         }
         else
         {
-            this.transform.localScale = new Vector3(5, 5, 5);
+            this.transform.localScale = new Vector3(2, 2, 2);
             isFacingLeft = true;
         }
     }
@@ -107,7 +166,7 @@ public class EnemyPatroll : MonoBehaviour
         trigger.enabled = false;
         groundParticles.Play();
         rb2d.velocity = new Vector2(rb2d.velocity.x, 1);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.8f);
         rb2d.velocity = Vector2.zero;
         groundParticles.Stop();
         collider.enabled = true;

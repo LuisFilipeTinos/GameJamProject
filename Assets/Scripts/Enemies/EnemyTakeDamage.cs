@@ -18,13 +18,16 @@ public class EnemyTakeDamage : MonoBehaviour
     [SerializeField] BossHealth bossHealth;
     private int deathLoop = 0;
 
-    [SerializeField] Animator bossAnim;
+    [SerializeField] Animator enemyAnim;
+    public bool isDying;
+    
 
     void Start()
     {
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         finishedAppearing = false;
+        isDying = false;
     }
 
     public void Update()
@@ -57,15 +60,16 @@ public class EnemyTakeDamage : MonoBehaviour
                 //}
                 //else
 
-                var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
-                foreach (var enemy in enemiesArray)
-                    Destroy(enemy.gameObject);
+                //var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
+                //foreach (var enemy in enemiesArray)
+                //    Destroy(enemy.gameObject);
 
-                Destroy(this.gameObject);
+                if (this.gameObject.name.Contains("EnemyOne"))
+                    StartCoroutine(EnemyOneDeath());
             }
 
             if (this.gameObject.layer == 10 && bossHealth.health == 3 && this.gameObject.name == "SubBoss")
-                bossAnim.SetBool("Enraged", true);
+                enemyAnim.SetBool("Enraged", true);
         }
     }
 
@@ -108,5 +112,15 @@ public class EnemyTakeDamage : MonoBehaviour
             StartCoroutine(BossDeath());
         else
             Destroy(this.gameObject);
+    }
+
+    private IEnumerator EnemyOneDeath()
+    {
+        isDying = true;
+        rb2d.velocity = Vector2.zero;
+        rb2d.constraints = RigidbodyConstraints2D.FreezePosition;
+        enemyAnim.Play("EnemyOneDeath");
+        yield return new WaitForSeconds(1.1f);
+        Destroy(this.gameObject);
     }
 }
