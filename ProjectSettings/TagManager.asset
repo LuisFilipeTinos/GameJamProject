@@ -11,6 +11,7 @@ TagManager:
   - Whip
   - BloodBurst
   - Enemy
+  - InvisibleWall
   layers:
   - Default
   - TransparentFX

@@ -30,15 +30,19 @@ public class StaminaSystem : MonoBehaviour
     // Update is called once per frame
     public void UseStamina(int amount)
     {
+        
         if(currentStamina - amount >= 0)
         {
             currentStamina -= amount;
             staminaBar.value = currentStamina;
+
+            StartCoroutine(RegenStamina());
         }
         else
         {
             Debug.Log("Não tem stamina o suficiente");
         }
+              
         
     }
 
