@@ -60,9 +60,12 @@ public class EnemyTakeDamage : MonoBehaviour
                 //}
                 //else
 
-                var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
-                foreach (var enemy in enemiesArray)
-                    Destroy(enemy.gameObject);
+                if (this.gameObject.layer == 10)
+                {
+                    var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
+                    foreach (var enemy in enemiesArray)
+                        Destroy(enemy.gameObject);
+                }
 
                 if (this.gameObject.name.Contains("EnemyOne"))
                     StartCoroutine(EnemyOneDeath());
