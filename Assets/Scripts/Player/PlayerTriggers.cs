@@ -14,6 +14,8 @@ public class PlayerTriggers : MonoBehaviour
 
     bool notTriggeredYet = true;
 
+    [SerializeField] BoxCollider2D leftWall;
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("IntroBossTriggerStage1") && notTriggeredYet)
@@ -22,9 +24,10 @@ public class PlayerTriggers : MonoBehaviour
             collision.enabled = false;
             notTriggeredYet = false;
             player.rb2d.constraints = RigidbodyConstraints2D.FreezePositionX;
-            cameraMovement.upLimit = 0;
-            cameraMovement.rightLimit = 175;
-            cameraMovement.leftLimit = 175;
+            cameraMovement.upLimit = 30;
+            cameraMovement.rightLimit = 341.56f;
+            cameraMovement.leftLimit = 341.56f;
+            leftWall.enabled = true;
             StartCoroutine(ShakeAndWait());
         }
     }

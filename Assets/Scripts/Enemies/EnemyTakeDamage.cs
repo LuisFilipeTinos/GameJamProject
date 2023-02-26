@@ -32,8 +32,8 @@ public class EnemyTakeDamage : MonoBehaviour
 
     public void Update()
     {
-        if (isShaking)
-            this.transform.position = new Vector2(this.transform.position.x + Mathf.Sin(Time.time * shakeSpeed) * shakeAmount * 0.2f, this.transform.position.y);
+        //if (isShaking)
+        //    this.transform.position = new Vector2(this.transform.position.x + Mathf.Sin(Time.time * shakeSpeed) * shakeAmount * 0.2f, this.transform.position.y);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -47,7 +47,7 @@ public class EnemyTakeDamage : MonoBehaviour
             {
                 enemyLife--;
                 rb2d.velocity = Vector2.zero;
-                isShaking = true;
+                //isShaking = true;
                 StartCoroutine(TakeDamage());
             }
             else
@@ -60,9 +60,9 @@ public class EnemyTakeDamage : MonoBehaviour
                 //}
                 //else
 
-                //var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
-                //foreach (var enemy in enemiesArray)
-                //    Destroy(enemy.gameObject);
+                var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach (var enemy in enemiesArray)
+                    Destroy(enemy.gameObject);
 
                 if (this.gameObject.name.Contains("EnemyOne"))
                     StartCoroutine(EnemyOneDeath());
@@ -75,7 +75,7 @@ public class EnemyTakeDamage : MonoBehaviour
 
     private IEnumerator TakeDamage()
     {
-        var currentPosition = this.transform.position;
+       //var currentPosition = this.transform.position;
         spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.07f);
         spriteRenderer.color = Color.white;
@@ -83,8 +83,8 @@ public class EnemyTakeDamage : MonoBehaviour
         spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.07f);
         spriteRenderer.color = Color.white;
-        this.transform.position = currentPosition;
-        isShaking = false;
+        //this.transform.position = currentPosition;
+        //isShaking = false;
     }
 
     private IEnumerator BossDeath()

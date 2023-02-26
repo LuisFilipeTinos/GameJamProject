@@ -12,6 +12,8 @@ TagManager:
   - BloodBurst
   - Enemy
   - InvisibleWall
+  - GateButton
+  - PlayerCollider
   layers:
   - Default
   - TransparentFX
