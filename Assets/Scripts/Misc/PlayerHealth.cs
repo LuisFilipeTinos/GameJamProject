@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public int health;
-    private int maximumLife = 7;
+    private int maximumLife = 5;
 
     public Image[] bars;
 

@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject bulletPrefab;
 
-    public bool isFacingLeft;
+    public static bool isFacingLeft;
 
     public bool canMove;
     public bool jumpedOnce = false;
@@ -86,16 +86,25 @@ public class PlayerController : MonoBehaviour
                 if (!isGrounded)
                     anim.Play("JumpAnim");
 
-                if (Input.GetKeyDown(KeyCode.V))
+                if (Input.GetKeyDown(KeyCode.R))
                 {
                     GameObject newBullet = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, -1), Quaternion.identity);
                     newBullet.GetComponent<PlayerBulletScript>().StartShoot(isFacingLeft);
                 }
 
-                if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.C) && canDash)
+                if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.C) && canDash && StaminaSystem.haveStamina)
+                {
                     StartCoroutine(Slide());
-                else if (Input.GetKeyDown(KeyCode.C) && canDash && !isGrounded)
-                    StartCoroutine(Dash());
+
+                    StaminaSystem.instance.UseStamina(25);
+                }
+                    
+                else if (Input.GetKeyDown(KeyCode.C) && canDash && !isGrounded && StaminaSystem.haveStamina)
+                {
+                     StartCoroutine(Dash());
+                    StaminaSystem.instance.UseStamina(25);
+                }
+                   
 
                 if (Input.GetKeyDown(KeyCode.F))
                     playerDamageScript.Deffending();
@@ -177,7 +186,7 @@ public class PlayerController : MonoBehaviour
                         movingRight = false;
                     }
 
-                    if (Input.GetKeyDown(KeyCode.X) && jumpedOnce && !isGrounded)
+                    if (Input.GetKeyDown(KeyCode.X) && jumpedOnce && !isGrounded && StaminaSystem.haveStamina)
                     {
                         if (jumpedOnce)
                             jumpedOnce = false;
@@ -187,6 +196,8 @@ public class PlayerController : MonoBehaviour
 
                         rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
                         rb2d.velocity = new Vector2(rb2d.velocity.x, normalizedJumpForce);
+
+                        StaminaSystem.instance.UseStamina(15);
                     }
                 }
             }

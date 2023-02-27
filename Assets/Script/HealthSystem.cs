@@ -7,8 +7,10 @@ public class HealthSystem : MonoBehaviour
 
     public GameObject[] hearts;
     private int life;
-    private bool dead;
+    public static bool dead;
     public bool onTrigger;
+
+    public static HealthSystem instance;
 
     // Start is called before the first frame update
     private void Start()

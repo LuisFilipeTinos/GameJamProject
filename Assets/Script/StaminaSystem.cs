@@ -13,6 +13,7 @@ public class StaminaSystem : MonoBehaviour
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
 
     public static StaminaSystem instance;
+    public static bool haveStamina;
 
     private void Awake()
     {
@@ -25,6 +26,8 @@ public class StaminaSystem : MonoBehaviour
         currentStamina = maxStamina;
         staminaBar.maxValue = maxStamina;
         staminaBar.value = maxStamina;
+
+        haveStamina = true;
     }
 
     // Update is called once per frame
@@ -37,10 +40,11 @@ public class StaminaSystem : MonoBehaviour
             staminaBar.value = currentStamina;
 
             StartCoroutine(RegenStamina());
+            haveStamina = true;
         }
         else
         {
-            Debug.Log("Não tem stamina o suficiente");
+           haveStamina = false;
         }
               
         
