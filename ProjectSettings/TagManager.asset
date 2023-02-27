@@ -12,6 +12,9 @@ TagManager:
   - BloodBurst
   - Enemy
   - InvisibleWall
+  - GateButton
+  - PlayerCollider
+  - SentenceTriggers
   layers:
   - Default
   - TransparentFX

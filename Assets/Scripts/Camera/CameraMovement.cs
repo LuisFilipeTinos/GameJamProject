@@ -32,7 +32,7 @@ public class CameraMovement : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 startPos = transform.position;
-        Vector3 endPos = player.transform.position;
+        Vector3 endPos = new Vector3(player.transform.position.x, player.transform.position.y + 1.5f, player.transform.position.z);
 
         endPos.x += posOffset.x;
         endPos.y += posOffset.y;
