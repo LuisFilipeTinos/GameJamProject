@@ -25,7 +25,7 @@ public class EnemyPatroll : MonoBehaviour
     [SerializeField] float agroRange;
     [SerializeField] Transform playerTransf;
 
-    bool appeared;
+    [SerializeField] bool appeared;
 
     private void Start()
     {
@@ -53,9 +53,9 @@ public class EnemyPatroll : MonoBehaviour
                     ChasePlayer();
                 }
                 else if (!isFacingLeft)
-                    rb2d.velocity = new Vector2(moveSpeed * Time.deltaTime, this.transform.position.y);
+                    rb2d.velocity = new Vector2(moveSpeed * Time.deltaTime, 0);
                 else
-                    rb2d.velocity = new Vector2(-moveSpeed * Time.deltaTime, this.transform.position.y);
+                    rb2d.velocity = new Vector2(-moveSpeed * Time.deltaTime, 0);
             }
         }
         else if (!appeared && !damageScript.isDying)
@@ -73,12 +73,15 @@ public class EnemyPatroll : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Linecast(castPoint.position, endPos, 1 << LayerMask.NameToLayer("IgnoreBloodContact"));
 
-
         if (hit.collider != null)
         {
             Debug.DrawLine(castPoint.position, endPos, Color.yellow);
 
-            transform.position = Vector2.MoveTowards(transform.position, playerTransf.position, 4f * Time.deltaTime);
+            var magnitude = 4;
+            if (isFacingLeft)
+                magnitude = -4;
+
+            transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(playerTransf.position.x, transform.position.y), magnitude * Time.deltaTime);
 
             if (hit.collider.gameObject.CompareTag("Player"))
                 return true;

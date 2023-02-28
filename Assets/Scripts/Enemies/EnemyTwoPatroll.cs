@@ -56,7 +56,11 @@ public class EnemyTwoPatroll : MonoBehaviour
         {
             Debug.DrawLine(castPoint.position, endPos, Color.yellow);
 
-            transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(playerTransf.position.x, transform.position.y), 4f * Time.deltaTime);
+            var magnitude = 4f;
+            if (isFacingLeft)
+                magnitude = -4f;
+
+            transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(playerTransf.position.x, transform.position.y), magnitude * Time.deltaTime);
 
             if (hit.collider.gameObject.CompareTag("Player"))
                 return true;

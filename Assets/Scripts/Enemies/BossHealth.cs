@@ -12,15 +12,15 @@ public class BossHealth : MonoBehaviour
 
     private void Update()
     {
-        if (health > maximumLife)
-            health = maximumLife;
+        //if (health > maximumLife)
+        //    health = maximumLife;
 
-        for (int i = 0; i < bars.Length; i++)
-        {
-            if (i < health)
-                bars[i].enabled = true;
-            else
-                bars[i].enabled = false;
-        }
+        //for (int i = 0; i < bars.Length; i++)
+        //{
+        //    if (i < health)
+        //        bars[i].enabled = true;
+        //    else
+        //        bars[i].enabled = false;
+        //}
     }
 }

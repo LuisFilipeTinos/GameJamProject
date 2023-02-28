@@ -11,13 +11,17 @@ public class SentencesTriggers : MonoBehaviour
     [SerializeField] GameObject sentenceContainer;
     bool isVisible;
 
-    [SerializeField] PlayerController playerController; 
+    [SerializeField] PlayerController playerController;
+
+    [SerializeField] BoxCollider2D fakeFloorCollider;
+    BoxCollider2D coll;
     // Start is called before the first frame update
     void Start()
     {
         isVisible = false;
         sentenceContainer.SetActive(false);
         sentenceText.text = string.Empty;
+        coll = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -27,6 +31,7 @@ public class SentencesTriggers : MonoBehaviour
             sentenceContainer.SetActive(false);
             playerController.canMove = true;
             playerController.rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+            coll.enabled = false;
         }
     }
 
@@ -38,7 +43,7 @@ public class SentencesTriggers : MonoBehaviour
             isVisible = true;
             playerController.canMove = false;
             playerController.rb2d.velocity = Vector2.zero;
-            playerController.rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+            playerController.rb2d.constraints = RigidbodyConstraints2D.FreezePositionX;
 
             if (this.gameObject.name == "FirstSentenceTrigger")
             {
@@ -47,7 +52,27 @@ public class SentencesTriggers : MonoBehaviour
             }
             else if (this.gameObject.name == "SecondSentenceTrigger")
             {
+                fakeFloorCollider.enabled = false;
                 sentenceText.text = "- Não estou com um bom pressentimento. Acho melhor achar alguma coisa pra me defender.";
+            }
+            else if (this.gameObject.name == "ThirdSentenceTrigger")
+            {
+                fakeFloorCollider.enabled = false;
+                sentenceText.text = "- Mamãe, porque você voltou pra casa? Não devia ficar no hospital?" + Environment.NewLine +
+                                    "- Eu pedi pra voltar pra casa e ficar com você, meu amor. Posso fazer meu tratamento daqui.";
+            }
+            else if (this.gameObject.name == "FourthSentenceTrigger")
+            {
+                fakeFloorCollider.enabled = false;
+                sentenceText.text = "- Nossa, são vários monstros. É muito perigoso eu pular com eles ali, melhor achar alguma coisa que os acerte de longe.";
+            }
+            else if (this.gameObject.name == "FifthSentenceTrigger")
+            {
+                fakeFloorCollider.enabled = false;
+                sentenceText.text = "(Som de prato quebrando e de falta de ar)" + Environment.NewLine +
+                    "- Mamãe! Mamãe! O que tá acontecendo? Por que você tá respirando assim? Fala comigo!" + Environment.NewLine +
+                    "(Continua o som de falta de ar)" + Environment.NewLine +
+                    "- Mamãe ? Se mexe por favor.";
             }
         }
     }

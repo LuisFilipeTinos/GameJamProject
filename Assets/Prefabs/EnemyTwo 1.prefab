@@ -237,7 +237,7 @@ MonoBehaviour:
   baseCastDist: 0.3
   castPoint: {fileID: 635462984051722060}
   agroRange: 6
-  playerTransf: {fileID: 0}
+  playerTransf: {fileID: 7527055507463392774, guid: a83073484ae1cd5488270b195e3ba071, type: 3}
 --- !u!114 &5271776485800614921
 MonoBehaviour:
   m_ObjectHideFlags: 0

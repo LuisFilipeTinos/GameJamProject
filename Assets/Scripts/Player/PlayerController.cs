@@ -86,29 +86,29 @@ public class PlayerController : MonoBehaviour
                 if (!isGrounded)
                     anim.Play("JumpAnim");
 
-                if (Input.GetKeyDown(KeyCode.R))
+                if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
                     GameObject newBullet = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, -1), Quaternion.identity);
                     newBullet.GetComponent<PlayerBulletScript>().StartShoot(isFacingLeft);
                 }
 
-                if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.C) && canDash && StaminaSystem.haveStamina)
+                if ((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.DownArrow)) && Input.GetKeyDown(KeyCode.LeftShift) && canDash && StaminaSystem.haveStamina)
                 {
                     StartCoroutine(Slide());
 
                     StaminaSystem.instance.UseStamina(25);
                 }
                     
-                else if (Input.GetKeyDown(KeyCode.C) && canDash && !isGrounded && StaminaSystem.haveStamina)
+                else if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isGrounded && StaminaSystem.haveStamina)
                 {
                      StartCoroutine(Dash());
                     StaminaSystem.instance.UseStamina(25);
                 }
                    
 
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKeyDown(KeyCode.Mouse1))
                     playerDamageScript.Deffending();
-                if (Input.GetKeyUp(KeyCode.F))
+                if (Input.GetKeyUp(KeyCode.Mouse0) && Input.GetKeyUp(KeyCode.Mouse1))
                     playerDamageScript.IsntDeffending();
 
                 if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
                     coll.size = new Vector2(coll.size.x, colliderSizeY);
                 }
 
-                if (Input.GetKeyDown(KeyCode.Z) && !isAttacking && isGrounded)
+                if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking && isGrounded)
                 {
                     rb2d.velocity = Vector2.zero;
                     rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour
                         movingRight = false;
                     }
 
-                    if (Input.GetKeyDown(KeyCode.X) && jumpedOnce && !isGrounded && StaminaSystem.haveStamina)
+                    if (Input.GetKeyDown(KeyCode.Space) && jumpedOnce && !isGrounded && StaminaSystem.haveStamina)
                     {
                         if (jumpedOnce)
                             jumpedOnce = false;
@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
             else
                 rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 
-            if (Input.GetKey(KeyCode.X) && isGrounded && !isAttacking && canMove)
+            if (Input.GetKey(KeyCode.Space) && isGrounded && !isAttacking && canMove)
             {
                 CreateDust();
                 anim.Play("JumpAnim");
