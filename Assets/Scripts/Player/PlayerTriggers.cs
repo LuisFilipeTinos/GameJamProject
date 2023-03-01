@@ -12,9 +12,18 @@ public class PlayerTriggers : MonoBehaviour
     [SerializeField] Animator bossAnim;
     [SerializeField] GameObject boss;
 
+    public static bool inTriggerZoom;
+    public static bool ampliedZoom;
+
+    public static bool inTriggerLeftWall;
+    public static bool inTriggerRightWall;
+
     bool notTriggeredYet = true;
 
     [SerializeField] BoxCollider2D leftWall;
+
+    public static bool pegouEspada;
+    public static bool pegouBoomerang;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,6 +38,54 @@ public class PlayerTriggers : MonoBehaviour
             cameraMovement.leftLimit = 341.56f;
             leftWall.enabled = true;
             StartCoroutine(ShakeAndWait());
+        }
+
+        if(collision.gameObject.CompareTag("LeftWall"))
+        {
+            inTriggerLeftWall = true;
+        }
+
+        else if(collision.gameObject.CompareTag("RightWall"))
+        {
+            inTriggerRightWall = true;
+        }
+
+
+       
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+         if(collision.gameObject.CompareTag("Zoom"))
+        {
+            Debug.Log("colidiu");
+            inTriggerZoom = true;
+        }
+
+        else
+        {
+           inTriggerZoom = false;
+        }
+
+
+        if(collision.gameObject.CompareTag("AmpliedScreen"))
+        {
+            Debug.Log("Ampliar");
+            ampliedZoom = true;
+        }
+
+        else{
+            ampliedZoom = false;
+        }
+
+        if(collision.gameObject.CompareTag("Espada"))
+        {
+            pegouEspada = true;
+        }
+
+        if(collision.gameObject.CompareTag("Boomerang"))
+        {
+            pegouBoomerang = true;
         }
     }
 
