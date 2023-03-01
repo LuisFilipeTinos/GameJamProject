@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     bool movingRight, movingLeft;
 
+    public int direction = 1;
+
     [SerializeField]
     Transform groundCheck;
 
@@ -34,6 +36,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] PlayerTakeDamage playerDamageScript;
 
+    private Vector2 wallJumpingPower = new Vector2(30f, 30f);
+
     bool canDash = true;
     bool isDashing;
     float dashingPower = 3f;
@@ -43,7 +47,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
 
     public static bool isFacingLeft;
-
+    public static bool isFacingRight;
     public bool canMove;
     public bool jumpedOnce = false;
 
@@ -59,6 +63,17 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D coll;
     [SerializeField]
     private SpriteRenderer sr;
+
+
+    public bool onWall;
+    public Vector3 wallOffset;
+    public float wallRadius;
+    public float maxFallSpeed = -1;
+    public float wallJumpDuration = 2.5f;
+    public bool jumpFromWall;
+    public float jumpFinish;
+    public LayerMask wallLayer;
+    private float wallJumpingDirection;
 
     void Start()
     {
@@ -199,6 +214,27 @@ public class PlayerController : MonoBehaviour
 
                         StaminaSystem.instance.UseStamina(15);
                     }
+
+                     if (Input.GetKeyDown(KeyCode.X) && jumpedOnce && !isGrounded && StaminaSystem.haveStamina && PlayerTriggers.inTriggerRightWall == true)
+                    {
+                        CreateDust();
+                        anim.Play("JumpAnim");
+
+                        canMove = false;
+
+                        rb2d.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+                        if (transform.localScale.x != wallJumpingDirection)
+                        {
+                            isFacingRight = !isFacingRight;
+                            Vector3 localScale = transform.localScale;
+                            localScale.x *= -1f;
+                            transform.localScale = localScale;
+            }
+
+                        Flip();
+
+                        StaminaSystem.instance.UseStamina(15);
+                    }
                 }
             }
         }
@@ -320,4 +356,11 @@ public class PlayerController : MonoBehaviour
         Destroy(obj);
     }
 
+    void Flip()
+    {
+        direction *= -1;        
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
 }

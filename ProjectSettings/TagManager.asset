@@ -15,6 +15,13 @@ TagManager:
   - GateButton
   - PlayerCollider
   - SentenceTriggers
+  - Zoom
+  - AmpliedScreen
+  - Wall
+  - Espada
+  - Boomerang
+  - RightWall
+  - LeftWall
   layers:
   - Default
   - TransparentFX
@@ -27,7 +34,7 @@ TagManager:
   - Blood
   - IgnoreBloodContact
   - Boss
-  - 
+  - Wall
   - 
   - 
   - 
