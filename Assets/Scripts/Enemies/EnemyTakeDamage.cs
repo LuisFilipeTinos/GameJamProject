@@ -60,15 +60,11 @@ public class EnemyTakeDamage : MonoBehaviour
                 //}
                 //else
 
-                if (this.gameObject.layer == 10)
-                {
-                    var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
-                    foreach (var enemy in enemiesArray)
-                        Destroy(enemy.gameObject);
-                }
-
                 if (this.gameObject.name.Contains("EnemyOne"))
                     StartCoroutine(EnemyOneDeath());
+
+                if (this.gameObject.name.Contains("SubBoss"))
+                    StartCoroutine(SubBossDeath());
             }
 
             if (this.gameObject.layer == 10 && bossHealth.health == 3 && this.gameObject.name == "SubBoss")
@@ -124,6 +120,21 @@ public class EnemyTakeDamage : MonoBehaviour
         rb2d.constraints = RigidbodyConstraints2D.FreezePosition;
         enemyAnim.Play("EnemyOneDeath");
         yield return new WaitForSeconds(1.1f);
+        Destroy(this.gameObject);
+    }
+
+    private IEnumerator SubBossDeath()
+    {
+        isDying = true;
+        rb2d.velocity = Vector2.zero;
+        rb2d.constraints = RigidbodyConstraints2D.FreezePositionX;
+        enemyAnim.Play("SubBossDeathAnim");
+        yield return new WaitForSeconds(0.4f);
+
+        var enemiesArray = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var enemy in enemiesArray)
+            Destroy(enemy.gameObject);
+
         Destroy(this.gameObject);
     }
 }

@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     bool canDash = true;
     bool isDashing;
-    float dashingPower = 3f;
+    float dashingPower = 7f;
     float dashingTime = 0.2f;
     float dashingCooldown = 1f;
 
@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour
     private float colliderOffsetYSlide = -0.1014729f;
     private float colliderSizeYSlide = 0.09066391f;
 
-    private float colliderOffsetY = 0.001597583f;
-    private float colliderSizeY = 0.2968048f;
+    private float colliderOffsetY = -0.07088709f;
+    private float colliderSizeY = 0.8318815f;
 
     [SerializeField]
     private BoxCollider2D coll;
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
                             movingLeft = false;
                         }
 
-                        this.transform.localScale = new Vector3(5, 5, 5);
+                        this.transform.localScale = new Vector3(2, 2, 2);
                     }
                     else if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !isAttacking)
                     {
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
                             movingLeft = false;
                         }
 
-                        this.transform.localScale = new Vector3(-5, 5, 5);
+                        this.transform.localScale = new Vector3(-2, 2, 2);
                     }
                     else if (!isAttacking)
                     {

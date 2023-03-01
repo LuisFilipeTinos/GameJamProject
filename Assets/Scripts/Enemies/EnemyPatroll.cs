@@ -48,11 +48,11 @@ public class EnemyPatroll : MonoBehaviour
 
             if (!damageScript.isDying)
             {
-                if (CanSeePlayer(agroRange))
-                {
-                    ChasePlayer();
-                }
-                else if (!isFacingLeft)
+                //if (CanSeePlayer(agroRange))
+                //{
+                //    ChasePlayer();
+                //}
+                if (!isFacingLeft)
                     rb2d.velocity = new Vector2(moveSpeed * Time.deltaTime, 0);
                 else
                     rb2d.velocity = new Vector2(-moveSpeed * Time.deltaTime, 0);
@@ -62,39 +62,40 @@ public class EnemyPatroll : MonoBehaviour
             this.transform.position = new Vector2(this.transform.position.x + Mathf.Sin(Time.time * 20.0f) * 0.01f, this.transform.position.y);
     }
 
-    private bool CanSeePlayer(float distance)
-    {
-        float castDist = distance;
+    //private bool CanSeePlayer(float distance)
+    //{
+    //    float castDist = distance;
 
-        if (isFacingLeft)
-            castDist = -distance;
+    //    if (isFacingLeft)
+    //        castDist = -distance;
 
-        Vector2 endPos = castPoint.position + Vector3.right * castDist;
+    //    Vector2 endPos = castPoint.position + Vector3.right * castDist;
 
-        RaycastHit2D hit = Physics2D.Linecast(castPoint.position, endPos, 1 << LayerMask.NameToLayer("IgnoreBloodContact"));
+    //    RaycastHit2D hit = Physics2D.Linecast(castPoint.position, endPos, 1 << LayerMask.NameToLayer("IgnoreBloodContact"));
 
-        if (hit.collider != null)
-        {
-            Debug.DrawLine(castPoint.position, endPos, Color.yellow);
+    //    if (hit.collider != null)
+    //    {
+    //        Debug.DrawLine(castPoint.position, endPos, Color.yellow);
 
-            var magnitude = 4;
-            if (isFacingLeft)
-                magnitude = -4;
+    //        var magnitude = 4;
+    //        if (isFacingLeft)
+    //            magnitude = -4;
 
-            transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(playerTransf.position.x, transform.position.y), magnitude * Time.deltaTime);
+    //        //transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(playerTransf.position.x, transform.position.y), magnitude * Time.deltaTime);
+    //        transform.position = new Vector2(Mathf.MoveTowards(transform.position.x, playerTransf.position.x, magnitude), transform.position.y);
 
-            if (hit.collider.gameObject.CompareTag("Player"))
-                return true;
-            else
-                return false;
-        }
-        else
-        {
-            Debug.DrawLine(castPoint.position, endPos, Color.blue);
-            return false;
-        }
+    //        if (hit.collider.gameObject.CompareTag("Player"))
+    //            return true;
+    //        else
+    //            return false;
+    //    }
+    //    else
+    //    {
+    //        Debug.DrawLine(castPoint.position, endPos, Color.blue);
+    //        return false;
+    //    }
             
-    }
+    //}
 
     private void ChasePlayer()
     {
